@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>WebUSB Demo</title>
+    <script src=""></script>
+    <script src="/asset/vendor/jquery/jquery.min.js"></script>
+</head>
+<body>
+<button id="request-device">Connect</button>
+</body>
+
+<script type="text/javascript">
+
+    $(document).ready(function () {
+
+    });
+
+    navigator.usb.requestDevice({filters: [{vendorId: 0x2341}]})
+        .then(device => {
+            console.log(device.productName);      // "Arduino Micro"
+            console.log(device.manufacturerName); // "Arduino LLC"
+        })
+        .catch(error => {
+            console.log(error);
+        });
+
+
+</script>
+
+</html>
