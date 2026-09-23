@@ -1,0 +1,10 @@
+# 상단 네비게이션 바
+main:
+  - title: "글 목록"
+    url: /posts/
+  - title: "카테고리"
+    url: /categories/
+  - title: "태그"
+    url: /tags/
+  - title: "소개"
+    url: /about/
