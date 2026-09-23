@@ -1,0 +1,17 @@
+{% comment %}
+  GoatCounter 방문자 집계.
+
+  _config.yml 의 analytics.goatcounter.code 에 사이트 코드를 넣으면 동작합니다.
+  (https://example.goatcounter.com 로 가입했다면 code 는 "example")
+
+  code 가 비어 있으면 아무것도 삽입하지 않습니다. 설정을 깜빡한 채 배포해도
+  깨진 요청이 나가지 않도록 하기 위함입니다.
+
+  이 파일을 감싸는 테마의 _includes/analytics.html 이 이미
+  jekyll.environment == 'production' 조건을 걸어 두어서, 로컬 jekyll serve
+  에서는 집계되지 않고 GitHub Pages 배포본에서만 집계됩니다.
+{% endcomment %}
+{% if site.analytics.goatcounter.code %}
+<script data-goatcounter="https://{{ site.analytics.goatcounter.code }}.goatcounter.com/count"
+        async src="https://gc.zgo.at/count.js"></script>
+{% endif %}
