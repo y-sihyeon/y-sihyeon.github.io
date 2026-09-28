@@ -29,6 +29,7 @@ logo                     : # path of logo image to display in the masthead, e.g.
 masthead_title           : # overrides the website title displayed in the masthead, use " " for no title
 # breadcrumbs            : false # true, false (default)
 words_per_minute         : 200
+date_format              : "%Y.%m.%d" # 테마 기본값은 "April 10, 2019" 같은 영어 표기
 comments:
   provider               : # false (default), "disqus", "discourse", "facebook", "staticman", "staticman_v2", "utterances", "custom"
   disqus:
@@ -113,9 +114,10 @@ analytics:
 # Site Author
 author:
   name             : "sihyeon"
-  avatar           : "https://github.com/y-sihyeon.png"
+  # 사용자 이름이 아니라 계정 번호로 가져오므로 GitHub 이름을 바꿔도 깨지지 않습니다.
+  avatar           : "https://avatars.githubusercontent.com/u/49471219?v=4"
   bio              : "Backend developer · 공부한 것을 기록합니다"
-  location         : "Seoul, Korea"
+  location         : # 예: "Seoul, Korea"
   email            :
   links:
     - label: "GitHub"
@@ -138,9 +140,7 @@ footer:
     - label: "GitHub"
       icon: "fab fa-fw fa-github"
       url: "https://github.com/y-sihyeon"
-    - label: "RSS"
-      icon: "fas fa-fw fa-rss-square"
-      url: "/feed.xml"
+    # RSS 링크는 테마가 "피드" 로 자동 추가하므로 여기 넣지 않습니다.
 
 
 # Reading Files
