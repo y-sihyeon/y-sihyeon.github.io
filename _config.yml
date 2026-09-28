@@ -99,10 +99,15 @@ social:
 
 # Analytics
 analytics:
-  provider               : false # false (default), "google", "google-universal", "custom"
+  # false (default), "google", "google-universal", "google-gtag", "swetrix", "custom"
+  # GA4 는 "google-gtag" 입니다. "google"/"google-universal" 은 2023년에 종료된
+  # 구형 Universal Analytics(UA-로 시작하는 ID) 용이라 GA4 ID 로는 동작하지 않습니다.
+  provider               : "google-gtag"
   google:
+    # GA4 측정 ID (G- 로 시작). 비워 두면 추적 코드가 아예 삽입되지 않습니다.
+    # (_includes/analytics-providers/google-gtag.html 에서 확인)
     tracking_id          :
-    anonymize_ip         : # true, false (default)
+    anonymize_ip         : # GA4 는 IP 를 기본으로 익명 처리하므로 설정할 필요 없음
 
 
 # Site Author
