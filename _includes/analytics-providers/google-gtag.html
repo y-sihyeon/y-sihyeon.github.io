@@ -1,0 +1,23 @@
+{% comment %}
+  Google Analytics 4 (gtag.js).
+
+  테마(minimal-mistakes)의 같은 이름 파일을 덮어씁니다. 원본과 동작은 같고,
+  tracking_id 가 비어 있을 때 아무것도 삽입하지 않도록 조건만 추가했습니다.
+  원본은 이 조건이 없어서 ID 를 비워 둔 채 provider 만 켜면 모든 페이지가
+  gtag/js?id= 로 빈 요청을 보냅니다.
+
+  이 파일을 감싸는 테마의 _includes/analytics.html 이 이미
+  jekyll.environment == 'production' 조건을 걸어 두어서, 로컬 jekyll serve
+  에서는 집계되지 않고 GitHub Pages 배포본에서만 집계됩니다.
+{% endcomment %}
+{% if site.analytics.google.tracking_id %}
+<!-- Global site tag (gtag.js) - Google Analytics -->
+<script async src="https://www.googletagmanager.com/gtag/js?id={{ site.analytics.google.tracking_id }}"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', '{{ site.analytics.google.tracking_id }}', { 'anonymize_ip': {{ site.analytics.google.anonymize_ip | default: false }}});
+</script>
+{% endif %}
