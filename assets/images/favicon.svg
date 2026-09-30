@@ -1,5 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#0092ca"/>
-  <polyline points="17,21 29,32 17,43" fill="none" stroke="#fff" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
-  <line x1="34" y1="44" x2="47" y2="44" stroke="#fff" stroke-width="6" stroke-linecap="round"/>
+  <!-- catppuccin mocha 스킨 색: 배경 base #1e1e2e, 포인트 red #f38ba8 -->
+  <rect width="64" height="64" rx="14" fill="#1e1e2e"/>
+  <polyline points="17,21 29,32 17,43" fill="none" stroke="#f38ba8" stroke-width="6" stroke-linecap="round" stroke-linejoin="round"/>
+  <line x1="34" y1="44" x2="47" y2="44" stroke="#f38ba8" stroke-width="6" stroke-linecap="round"/>
 </svg>

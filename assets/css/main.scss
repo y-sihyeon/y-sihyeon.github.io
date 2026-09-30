@@ -48,6 +48,17 @@ $monospace: "D2Coding", "JetBrains Mono", SFMono-Regular, Menlo, Consolas,
   }
 }
 
+// 일부 스킨(catppuccin_mocha 등)은 코드 블록 배경($base00)이 페이지 배경과
+// 같은 색이라 상자 경계가 사라지고 코드만 떠 보입니다. 그런 스킨일 때만
+// 한 단계 어둡게 하고 옅은 테두리를 줍니다. 다른 스킨에는 영향이 없습니다.
+@if $base00 == $background-color {
+  div.highlighter-rouge,
+  figure.highlight {
+    background: mix(#000, $background-color, 20%);
+    border: 1px solid mix(#fff, $background-color, 8%);
+  }
+}
+
 // ---------------------------------------------------------------------------
 // 빈 상자 숨기기
 // ---------------------------------------------------------------------------
