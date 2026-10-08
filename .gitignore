@@ -1,0 +1,17 @@
+# Jekyll 빌드 결과물
+_site/
+.jekyll-cache/
+.jekyll-metadata
+.sass-cache/
+
+# Ruby 의존성
+.bundle/
+vendor/
+# 운영체제마다 내용이 달라져서(macOS/Linux) 올리지 않습니다.
+# 버전은 Gemfile 의 github-pages gem 이 고정합니다.
+Gemfile.lock
+
+# 에디터·운영체제
+.idea/
+.vscode/
+.DS_Store

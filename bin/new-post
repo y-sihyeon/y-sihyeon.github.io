@@ -1,0 +1,96 @@
+#!/usr/bin/env bash
+# 새 글 파일을 만듭니다.
+#
+#   bin/new-post <slug> "<제목>" [카테고리]
+#
+#   slug     글 주소에 쓰일 영어 이름. 소문자·숫자·하이픈(-)만.
+#            예) cloudflare-tunnel  →  https://y-sihyeon.github.io/posts/cloudflare-tunnel/
+#   제목     화면에 보일 제목. 한글 가능. 띄어쓰기가 있으면 따옴표로 감싸세요.
+#   카테고리 아래 CATEGORIES 중 하나. 생략하면 비워 둡니다.
+#
+# 예) bin/new-post cloudflare-tunnel "Cloudflare Tunnel 로 집 서버 열기" Cloudflare
+#
+# macOS 기본 bash(3.2)에서도 돌아가도록 bash 4 전용 문법은 쓰지 않았습니다.
+set -euo pipefail
+
+# 카테고리는 글마다 하나만 고릅니다. 새 카테고리가 필요하면 여기에 추가하세요.
+# (철자가 조금만 달라도 카테고리 페이지에서 따로 묶이므로 목록으로 고정해 둡니다.)
+CATEGORIES="Cloudflare 네트워크 CDN AI"
+
+die() { printf '%s\n' "$*" >&2; exit 1; }
+
+usage() {
+  cat >&2 <<EOF
+사용법: bin/new-post <slug> "<제목>" [카테고리]
+
+  예) bin/new-post cloudflare-tunnel "Cloudflare Tunnel 로 집 서버 열기" Cloudflare
+
+  카테고리: $CATEGORIES
+EOF
+  exit 1
+}
+
+[ $# -ge 2 ] || usage
+slug=$1
+title=$2
+category=${3:-}
+
+cd "$(dirname "$0")/.."
+
+# slug: 주소에 그대로 들어가므로 영어 소문자·숫자·하이픈만 허용
+printf '%s' "$slug" | grep -Eq '^[a-z0-9]+(-[a-z0-9]+)*$' \
+  || die "slug 는 영어 소문자·숫자·하이픈만 쓸 수 있습니다: '$slug'  (예: cloudflare-tunnel)"
+
+# 글 주소가 /posts/<slug>/ 라서 날짜가 달라도 slug 가 같으면 주소가 겹칩니다.
+for f in _posts/*-"$slug".md _posts/*-"$slug".markdown; do
+  if [ -e "$f" ]; then
+    die "이미 같은 slug 의 글이 있습니다: $f  (주소가 겹치므로 다른 slug 를 쓰세요)"
+  fi
+done
+
+# 카테고리: 대소문자만 다르게 입력해도(cdn, cloudflare) 목록의 표기로 맞춰 줍니다.
+if [ -n "$category" ]; then
+  lower() { printf '%s' "$1" | awk '{ print tolower($0) }'; }
+  matched=
+  for c in $CATEGORIES; do
+    if [ "$(lower "$c")" = "$(lower "$category")" ]; then matched=$c; fi
+  done
+  [ -n "$matched" ] || die "모르는 카테고리입니다: '$category'
+  쓸 수 있는 카테고리: $CATEGORIES
+  새로 만들려면 bin/new-post 맨 위의 CATEGORIES 에 추가하세요."
+  category=$matched
+fi
+
+day=$(date +%Y-%m-%d)
+now=$(date "+%Y-%m-%d %H:%M:%S %z")
+file="_posts/$day-$slug.md"
+
+# YAML 큰따옴표 문자열 안에서 \ 와 " 가 문법을 깨지 않도록 이스케이프
+yaml_title=$(printf '%s' "$title" | sed -e 's/\\/\\\\/g' -e 's/"/\\"/g')
+
+mkdir -p _posts
+cat > "$file" <<EOF
+---
+title: "$yaml_title"
+date: $now
+categories: $category
+tags: []
+---
+
+이 첫 문단은 글 목록과 검색 결과에 요약으로 보입니다. 이 글이 무엇을 다루는지 두세 문장으로 써 주세요.
+
+## 소제목
+
+소제목(##)을 쓰면 오른쪽에 목차가 자동으로 생깁니다.
+
+\`\`\`bash
+# 코드 블록에 언어 이름(bash, yaml, js, python ...)을 붙이면 색이 입혀집니다.
+\`\`\`
+EOF
+
+cat <<EOF
+새 글을 만들었습니다: $file
+  주소(배포 후): https://y-sihyeon.github.io/posts/$slug/
+  이미지 폴더:   assets/images/posts/$slug/
+  미리보기:      bin/serve  →  http://localhost:4000/posts/$slug/
+EOF
