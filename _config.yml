@@ -170,6 +170,8 @@ exclude:
   - package.json
   - Rakefile
   - README
+  - README.md
+  - bin # 글쓰기 도우미 스크립트. 사이트에 올라가면 안 됩니다.
   - tmp
   - /docs # ignore Minimal Mistakes /docs
   - /test # ignore Minimal Mistakes /test
@@ -207,10 +209,13 @@ sass:
 
 
 # Outputting
-permalink: /:categories/:title/
+# 글 주소는 /posts/<파일 이름의 slug>/ 입니다.
+# 예전에는 /:categories/:title/ 이었는데, 카테고리를 바꾸면 글 주소가 바뀌어
+# 기존 링크와 검색 노출이 깨지므로 카테고리를 주소에서 뺐습니다.
+permalink: /posts/:title/
 paginate: 5 # amount of posts to show
 paginate_path: /page:num/
-timezone: # https://en.wikipedia.org/wiki/List_of_tz_database_time_zones
+timezone: Asia/Seoul # 글의 date 와 빌드 시각을 한국 시간 기준으로
 
 
 # Plugins (previously gems:)

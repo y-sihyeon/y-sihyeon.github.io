@@ -1,0 +1,24 @@
+#!/usr/bin/env bash
+# 로컬 미리보기 서버를 띄웁니다: http://localhost:4000
+#
+#   bin/serve
+#
+# 파일을 저장하면 브라우저가 자동으로 새로고침됩니다(--livereload).
+# _drafts/ 폴더의 초안도 함께 보입니다(--drafts). 초안은 배포되지 않습니다.
+# 그 밖의 jekyll serve 옵션을 뒤에 붙이면 그대로 전달됩니다. 예) bin/serve --port 4001
+set -euo pipefail
+
+cd "$(dirname "$0")/.."
+
+command -v bundle >/dev/null 2>&1 \
+  || { echo "bundle 명령이 없습니다. README.md 의 '처음 한 번만' 을 먼저 해 주세요." >&2; exit 1; }
+
+# 터미널 언어 설정(locale)이 UTF-8 이 아니면 Ruby 가 파일을 US-ASCII 로 읽어서,
+# 테마의 Sass 파일에서 "Invalid US-ASCII character" 오류를 내며 멈춥니다.
+# 터미널 설정과 상관없이 UTF-8 로 읽도록 고정합니다.
+export RUBYOPT="-Eutf-8 ${RUBYOPT:-}"
+
+# 처음이거나 Gemfile 이 바뀌었으면 의존성을 설치합니다.
+bundle check >/dev/null 2>&1 || bundle install
+
+exec bundle exec jekyll serve --livereload --drafts "$@"
